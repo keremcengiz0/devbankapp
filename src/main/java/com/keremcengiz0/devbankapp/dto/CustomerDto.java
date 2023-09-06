@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CustomerDto {
-    private String id;
+    private Long id;
     private String name;
     private Integer dateOfBirth;
     private CityDto city;

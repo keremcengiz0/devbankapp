@@ -11,7 +11,7 @@ import lombok.*;
 @ToString
 @EqualsAndHashCode
 public class AddressDto {
-    private String id;
+    private Long id;
     private City city;
     private String postCode;
 }
