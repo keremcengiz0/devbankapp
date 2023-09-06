@@ -14,8 +14,8 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class AccountDto implements Serializable {
 
-    private String id;
-    private String customerId;
+    private Long id;
+    private Long customerId;
     private Double balance;
     private Currency currency;
 }

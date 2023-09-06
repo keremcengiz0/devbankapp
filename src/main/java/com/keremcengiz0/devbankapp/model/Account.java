@@ -1,6 +1,8 @@
 package com.keremcengiz0.devbankapp.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
 
@@ -13,9 +15,10 @@ import lombok.*;
 @Entity
 public class Account {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-    private String customerId;
+    private Long customerId;
     private Double balance;
     private City city;
     private Currency currency;

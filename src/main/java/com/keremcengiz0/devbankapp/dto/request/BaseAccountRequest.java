@@ -15,8 +15,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BaseAccountRequest {
-    @NotBlank(message = "Customer id must not be null")
-    private String customerId;
+    @NotNull(message = "Customer id must not be null")
+    private Long customerId;
 
     @NotNull
     @Min(0)

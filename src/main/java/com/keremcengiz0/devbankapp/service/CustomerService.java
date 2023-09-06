@@ -50,9 +50,14 @@ public class CustomerService {
 
         return customerDtoList;
 
+        /*  return customerList.stream()
+                .map(customerDtoConverter::convert)
+                .toList();
+        */
+
     }
 
-    public CustomerDto getCustomerById(Long id) {
+    public CustomerDto getCustomerDtoById(Long id) {
 
         Optional<Customer> customer = customerRepository.findById(id);
 
@@ -65,6 +70,17 @@ public class CustomerService {
         return customerDto;
 
 
+    }
+
+    public Customer getCustomerById(Long id) {
+
+        Optional<Customer> customer = customerRepository.findById(id);
+
+        if (!customer.isPresent()) {
+            throw new CustomerNotFoundException("Customer with id " + id + " could not be found!");
+        }
+
+        return customer.get();
     }
 
     public CustomerDto updateCustomer(Long id, UpdateCustomerRequest updateCustomerRequest) {
