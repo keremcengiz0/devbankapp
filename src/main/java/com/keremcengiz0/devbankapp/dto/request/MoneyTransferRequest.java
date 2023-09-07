@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class MoneyTransferRequest {
-    private String fromId;
-    private String toId;
+    private Long fromId;
+    private Long toId;
     private Double amount;
 }
