@@ -53,6 +53,11 @@ public class GeneralExceptionAdvisor extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(accountNotFoundException.getMessage(), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(InsufficientFundsException.class)
+    public ResponseEntity<?> insufficientFundsExceptionHandler(InsufficientFundsException insufficientFundsException) {
+        return new ResponseEntity<>(insufficientFundsException.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> generalExceptionHandler(Exception exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

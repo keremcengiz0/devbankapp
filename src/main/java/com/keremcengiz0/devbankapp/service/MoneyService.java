@@ -3,6 +3,7 @@ package com.keremcengiz0.devbankapp.service;
 import com.keremcengiz0.devbankapp.converter.AccountDtoConverter;
 import com.keremcengiz0.devbankapp.dto.AccountDto;
 import com.keremcengiz0.devbankapp.exception.AccountNotFoundException;
+import com.keremcengiz0.devbankapp.exception.InsufficientFundsException;
 import com.keremcengiz0.devbankapp.model.Account;
 import com.keremcengiz0.devbankapp.repository.AccountRepository;
 import org.slf4j.Logger;
@@ -42,6 +43,7 @@ public class MoneyService {
             accountRepository.save(account);
         } else {
             LOGGER.info("Insufficient funds -> accountId: " + id + " balance: " + account.getBalance() + " amount: " + amount);
+            throw new InsufficientFundsException("Insufficient funds -> accountId: " + id + " balance: " + account.getBalance() + " amount: " + amount);
         }
 
         AccountDto accountDto = accountDtoConverter.convert(account);
