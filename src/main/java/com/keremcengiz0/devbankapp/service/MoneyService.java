@@ -19,7 +19,6 @@ import java.util.Optional;
 @Service
 public class MoneyService {
     private final AccountRepository accountRepository;
-    private final CustomerService customerService;
     private final AccountDtoConverter accountDtoConverter;
     private final RabbitTemplate rabbitTemplate;
     private final TopicExchange exchange;
@@ -31,12 +30,12 @@ public class MoneyService {
     private String secondRoute;
     @Value("${rabbitmq.binding.third.routing.key}")
     private String thirdRoute;
+    @Value("${rabbitmq.binding.notification.routing.key}")
+    private String notificationRoute;
 
-    public MoneyService(AccountRepository accountRepository, CustomerService customerService,
-                        AccountDtoConverter accountDtoConverter, RabbitTemplate rabbitTemplate,
-                        TopicExchange exchange) {
+    public MoneyService(AccountRepository accountRepository, AccountDtoConverter accountDtoConverter,
+                        RabbitTemplate rabbitTemplate, TopicExchange exchange) {
         this.accountRepository = accountRepository;
-        this.customerService = customerService;
         this.accountDtoConverter = accountDtoConverter;
         this.rabbitTemplate = rabbitTemplate;
         this.exchange = exchange;
@@ -83,7 +82,7 @@ public class MoneyService {
     }
 
     public void transferMoney(MoneyTransferRequest transferRequest) {
-        LOGGER.info(String.format("Money Transfer Request sent to RabbitMQ => %s", transferRequest));
+        LOGGER.info(String.format("Money Transfer Request sent to RabbitMQ First Queue=> %s", transferRequest));
         rabbitTemplate.convertAndSend(exchange.getName(), firstRoute, transferRequest);
     }
 }

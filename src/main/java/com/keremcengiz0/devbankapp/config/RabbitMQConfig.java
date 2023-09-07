@@ -25,6 +25,10 @@ public class RabbitMQConfig {
     private String thirdQueue;
     @Value("${rabbitmq.binding.third.routing.key}")
     private String thirdRoute;
+    @Value("${rabbitmq.queue.notification.name}")
+    private String notificationQueue;
+    @Value("${rabbitmq.binding.notification.routing.key}")
+    private String notificationRoute;
 
     @Bean
     public TopicExchange exchange() {
@@ -47,6 +51,11 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    public Queue notificationQueue() {
+        return new Queue(notificationQueue);
+    }
+
+    @Bean
     public Binding firstBinding() {
         return BindingBuilder.bind(firstStepQueue())
                 .to(exchange())
@@ -65,6 +74,13 @@ public class RabbitMQConfig {
         return BindingBuilder.bind(thirdStepQueue())
                 .to(exchange())
                 .with(thirdRoute);
+    }
+
+    @Bean
+    public Binding notificationBinding() {
+        return BindingBuilder.bind(notificationQueue())
+                .to(exchange())
+                .with(notificationRoute);
     }
 
     // message converter
