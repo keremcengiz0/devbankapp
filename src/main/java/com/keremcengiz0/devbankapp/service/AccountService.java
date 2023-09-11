@@ -9,6 +9,9 @@ import com.keremcengiz0.devbankapp.exception.CustomerNotFoundException;
 import com.keremcengiz0.devbankapp.model.Account;
 import com.keremcengiz0.devbankapp.model.Customer;
 import com.keremcengiz0.devbankapp.repository.AccountRepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,12 +31,15 @@ public class AccountService {
         this.customerService = customerService;
     }
 
+    @Cacheable(value = "accounts")
     public List<AccountDto> getAllAccountsDto() {
+        System.out.println("inside method");
         List<Account> accountList = accountRepository.findAll();
         return accountList.stream().map(accountDtoConverter::convert).collect(Collectors.toList());
     }
 
     public AccountDto getAccountDtoById(Long id) {
+        System.out.println("inside method");
         Optional<Account> account = accountRepository.findById(id);
 
         if (!account.isPresent()) {
@@ -55,6 +61,7 @@ public class AccountService {
         return account.get();
     }
 
+    @CachePut(value = "accounts", key = "#id")
     public AccountDto createAccount(CreateAccountRequest createAccountRequest) {
         Customer customer = customerService.getCustomerById(createAccountRequest.getCustomerId());
 
@@ -77,6 +84,7 @@ public class AccountService {
         return accountDto;
     }
 
+    @CacheEvict(value = "accounts", allEntries = true)
     public AccountDto updateAccount(Long id, UpdateAccountRequest updateAccountRequest) {
         Customer customer = customerService.getCustomerById(updateAccountRequest.getCustomerId());
 
@@ -105,6 +113,7 @@ public class AccountService {
 
     }
 
+    @CacheEvict(value = "accounts", allEntries = true)
     public void deleteAccount(Long id) {
         accountRepository.deleteById(id);
     }
